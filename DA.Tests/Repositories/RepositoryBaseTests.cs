@@ -71,7 +71,7 @@ namespace DA.Tests.Repositories
         {
             return new User()
             {
-                Birthday = DateTime.Now.ToString(),
+                Birthday = DateTime.Now,
                 Email = name + "@test.com",
                 Name = name
             };

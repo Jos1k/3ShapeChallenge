@@ -5,7 +5,6 @@ using DataAccess.Repositories.Common;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using LinqKit;
-using System.Globalization;
 using DataAccess.DataContext.Default;
 
 namespace DataAccess.Repositories.Default
@@ -35,11 +34,9 @@ namespace DataAccess.Repositories.Default
                 filterBuilder.And(x => x["Email"].ToString() == filterModel.Email);
             }
 
-            DateTime toDate;
-            if (!string.IsNullOrEmpty(filterModel.ToDate) 
-                && DateTime.TryParseExact(filterModel.ToDate, "MM-dd-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out toDate))
+            if (filterModel.ToDate.HasValue)
             {
-                filterBuilder.And(x => x["Birthday"].Value<DateTime>() <= toDate);
+                filterBuilder.And(x => x["Birthday"].Value<DateTime>() <= filterModel.ToDate.Value);
             }
 
             IEnumerable<User> dataEntities = _dataContext.Items.Value

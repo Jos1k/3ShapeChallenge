@@ -1,4 +1,5 @@
 ﻿using DataAccess.Common.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
@@ -10,6 +11,6 @@ namespace DataAccess.Models
         [Unique]
         public string Email { get; set; }
         public string Name { get; set; }
-        public string Birthday { get; set; }
+        public DateTime Birthday { get; set; }
     }
 }

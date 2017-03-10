@@ -22,24 +22,23 @@ namespace _3ShapeChallenge.Controllers
 
         // GET api/users
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<_ShowUser> Get()
         {
-            return _userRepository.GetAll();
+            return _mapper.Map<IEnumerable<_ShowUser>>(_userRepository.GetAll());
         }
 
         // GET api/users/5
         [HttpGet]
         [Route("find")]
-        public IEnumerable<User> Get([FromQuery] string id, [FromQuery] string email, [FromQuery] string toDate)
+        public IActionResult Get([FromQuery]_GetByFilter filter)
         {
-            UserFilterModel filter = new UserFilterModel()
+            if (!ModelState.IsValid)
             {
-                Id = id,
-                Email = email,
-                ToDate = toDate
-            };
+                return BadRequest(ModelState);
+            }
 
-            return _userRepository.GetBy(filter);
+            IEnumerable <User> users = _userRepository.GetBy(_mapper.Map<UserFilterModel>(filter));
+            return Ok(_mapper.Map<IEnumerable<_ShowUser>>(users));
         }
 
         // POST api/users
@@ -53,7 +52,8 @@ namespace _3ShapeChallenge.Controllers
 
             try
             {
-                return Ok(_userRepository.Create(_mapper.Map<User>(user)));
+                User userResult = _userRepository.Create(_mapper.Map<User>(user));
+                return Ok(_mapper.Map<_ShowUser>(userResult));
             }
             catch (Exception ex)
             {
