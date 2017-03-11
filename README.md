@@ -17,7 +17,7 @@ BODY:
 	{
 		"email": "ihor.hadzera@gmail.com",
 		"name":"ihor",
-		"birthday":"09/25/1995"
+		"birthday":"25-09-1995"
 	}
 ```
 #### GET ALL USERS
